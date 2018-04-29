@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#==================================================================================
+
+# имя файла скрипта
+SCRIPT="$0"
+
+# описание работы скрипнта --help
+showHelp() {
+    echo "usage:"
+    echo $SCRIPT" [command]"
+    echo ""
+    echo "      create  - create openvpn server"
+    echo ""
+    echo $SCRIPT" --help to read about all commands."
+    echo ""
+}
+
+# имя функции для запуска
+FUNCTION=
+
+if [ ! -z $1 ]; then
+    FUNCTION="$1"
+fi
+
+OVPN_SERVER_IP=
+OVPN_USER=
+if [ ! -z $2 ]; then
+    OVPN_SERVER_IP="$2"
+    OVPN_USER="$2"
+fi
+
+create(){
+    echo "$(date +%F\ %T) [INFO]: Create OpenVPN server"
+    docker-compose run --rm openvpn ovpn_genconfig -u udp://$OVPN_SERVER_IP -z
+    docker-compose run --rm openvpn ovpn_initpki
+}
+
+start(){
+    echo "$(date +%F\ %T) [INFO]: Create OpenVPN server"
+    docker-compose up -d openvpn
+}
+
+logs(){
+    echo "$(date +%F\ %T) [INFO]: OpenVPN server logs"
+    docker-compose logs -f
+}
+
+user-add(){
+    echo "$(date +%F\ %T) [INFO]: OpenVPN add user"
+    docker-compose run --rm openvpn easyrsa build-client-full $OVPN_USER
+    docker-compose run --rm openvpn ovpn_getclient $OVPN_USER > $OVPN_USER.ovpn
+}
+
+user-revoke(){
+    echo "$(date +%F\ %T) [INFO]: OpenVPN revoke user"
+    docker-compose run --rm openvpn ovpn_revokeclient $OVPN_USER remove
+}
+
+case "$1" in
+-h|--help)
+    showHelp
+    ;;
+*)
+    if [ ! -z $(type -t $FUNCTION | grep function) ]; then
+        $1
+    else
+        showHelp
+    fi
+esac
