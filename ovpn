@@ -31,7 +31,7 @@ fi
 
 create(){
     echo "$(date +%F\ %T) [INFO]: Create OpenVPN server"
-    docker-compose run --rm openvpn ovpn_genconfig -u udp://$OVPN_SERVER_IP
+    docker-compose run --rm openvpn ovpn_genconfig -u udp://"$OVPN_SERVER_IP"
     docker-compose run --rm openvpn ovpn_initpki
 }
 
