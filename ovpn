@@ -31,7 +31,7 @@ fi
 
 create(){
     echo "$(date +%F\ %T) [INFO]: Create OpenVPN server"
-    docker-compose run --rm openvpn ovpn_genconfig -u udp://$OVPN_SERVER_IP -z
+    docker-compose run --rm openvpn ovpn_genconfig -u udp://$OVPN_SERVER_IP
     docker-compose run --rm openvpn ovpn_initpki
 }
 
@@ -48,7 +48,7 @@ logs(){
 user-add(){
     echo "$(date +%F\ %T) [INFO]: OpenVPN add user"
     docker-compose run --rm openvpn easyrsa build-client-full $OVPN_USER
-    docker-compose run --rm openvpn ovpn_getclient $OVPN_USER > $OVPN_USER.ovpn
+    docker-compose run --rm openvpn ovpn_getclient "$OVPN_USER" > "$OVPN_USER".ovpn
 }
 
 user-revoke(){

@@ -1,8 +1,8 @@
-version: '3'
+version: '2'
 services:
   openvpn:
     cap_add:
-     - "NET_ADMIN"
+     - NET_ADMIN
     image: "kylemanna/openvpn"
     container_name: "openvpn"
     ports:
