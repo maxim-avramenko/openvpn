@@ -351,7 +351,7 @@ fi
 [ -n "$OVPN_AUTH" ] && echo "auth $OVPN_AUTH" >> "$conf"
 
 [ -n "${OVPN_CLIENT_TO_CLIENT:-}" ] && echo "client-to-client" >> "$conf"
-[ "$OVPN_COMP_LZO" == "1" ] && echo "comp-lzo" >> "$conf"
+[ "$OVPN_COMP_LZO" -eq 1 ] && echo "comp-lzo" >> "$conf"
 
 [ -n "${OVPN_FRAGMENT:-}" ] && echo "fragment $OVPN_FRAGMENT" >> "$conf"
 
@@ -370,9 +370,7 @@ fi
 done
 
 
-if [ "$OVPN_COMP_LZO" -eq 0 ]; then
-    process_push_config "comp-lzo no"
-else
+if [ "$OVPN_COMP_LZO" -eq 1 ]; then
     process_push_config "comp-lzo"
 fi
 
