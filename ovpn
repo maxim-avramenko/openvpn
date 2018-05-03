@@ -27,18 +27,20 @@ if [ ! -z $1 ]; then
     FUNCTION="$1"
 fi
 
-OVPN_SERVER_IP=`curl ipinfo.io/ip`
+
 OVPN_USER=
 if [ ! -z $2 ]; then
-    OVPN_SERVER_IP="$2"
     OVPN_USER="$2"
 fi
 
 get-ip(){
+    echo "Current server IPv4:"
+    OVPN_SERVER_IP=`curl -s ipinfo.io/ip`
     echo $OVPN_SERVER_IP
 }
 
 create(){
+    OVPN_SERVER_IP=`curl -s ipinfo.io/ip`
     echo "$(date +%F\ %T) [INFO]: Create OpenVPN server"
     docker-compose run --rm openvpn ovpn_genconfig -u udp://"$OVPN_SERVER_IP"
     docker-compose run --rm openvpn ovpn_initpki
