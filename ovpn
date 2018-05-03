@@ -68,9 +68,9 @@ logs(){
 }
 
 user-add(){
-    echo "$(date +%F\ %T) [INFO]: OpenVPN add user"
-    docker-compose run --rm openvpn easyrsa build-client-full "$OVPN_USER"
-    docker-compose run --rm openvpn ovpn_getclient "$OVPN_USER" > "$OVPN_USER".ovpn
+    echo "$(date +%F\ %T) [INFO]: OpenVPN add user $OVPN_USER"
+    docker-compose run --rm openvpn easyrsa build-client-full $OVPN_USER
+    docker-compose run --rm openvpn ovpn_getclient $OVPN_USER > "$OVPN_USER".ovpn
 }
 
 user-revoke(){
