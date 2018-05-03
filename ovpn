@@ -9,7 +9,12 @@ showHelp() {
     echo "usage:"
     echo $SCRIPT" [command]"
     echo ""
-    echo "      create  - create openvpn server"
+    echo "      create [server ip]"
+    echo "      start"
+    echo "      start-with-debug"
+    echo "      logs"
+    echo "      user-add [username]"
+    echo "      user-revoke [username]"
     echo ""
     echo $SCRIPT" --help to read about all commands."
     echo ""
@@ -22,12 +27,16 @@ if [ ! -z $1 ]; then
     FUNCTION="$1"
 fi
 
-OVPN_SERVER_IP=
+OVPN_SERVER_IP=`curl ipinfo.io/ip`
 OVPN_USER=
 if [ ! -z $2 ]; then
     OVPN_SERVER_IP="$2"
     OVPN_USER="$2"
 fi
+
+get-ip(){
+    echo $OVPN_SERVER_IP
+}
 
 create(){
     echo "$(date +%F\ %T) [INFO]: Create OpenVPN server"
@@ -36,8 +45,13 @@ create(){
 }
 
 start(){
-    echo "$(date +%F\ %T) [INFO]: Create OpenVPN server"
+    echo "$(date +%F\ %T) [INFO]: Start OpenVPN server"
     docker-compose up -d openvpn
+}
+
+start-with-debug(){
+    echo "$(date +%F\ %T) [INFO]: Start OpenVPN server in DEBUG mode"
+    docker-compose run -e DEBUG=1 openvpn
 }
 
 logs(){
