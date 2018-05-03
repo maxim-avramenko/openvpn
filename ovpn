@@ -9,7 +9,8 @@ showHelp() {
     echo "usage:"
     echo $SCRIPT" [command]"
     echo ""
-    echo "      create [server ip]"
+    echo "      build"
+    echo "      create"
     echo "      start"
     echo "      start-with-debug"
     echo "      logs"
@@ -37,6 +38,11 @@ get-ip(){
     echo "Current server IPv4:"
     OVPN_SERVER_IP=`curl -s ipinfo.io/ip`
     echo $OVPN_SERVER_IP
+}
+
+build(){
+    echo "$(date +%F\ %T) [INFO]: Build OpenVPN server"
+    docker-comose build --no-cache openvpn
 }
 
 create(){
