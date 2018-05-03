@@ -42,7 +42,7 @@ get-ip(){
 
 build(){
     echo "$(date +%F\ %T) [INFO]: Build OpenVPN server"
-    docker-comose build --no-cache openvpn
+    docker-compose build --no-cache openvpn
 }
 
 create(){
